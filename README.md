@@ -1,13 +1,13 @@
 # Kubernetes
 
-## índice
+## Índice
 
-### 1.Indroducción
+### [1. Introducción](./Introduccion/)
 
-### 2.Instalación
+### [2. Instalación](./Instalacion/)
 
-### 3.PODS
+### [3. PODS](./PODS/)
 
-### 4.Replica sets
+### [4. Replica sets](./replica%20sets/)
 
-### 5. Deployments
+### [5. Deployments](./deployments/)
