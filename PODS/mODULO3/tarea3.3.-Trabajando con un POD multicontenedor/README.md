@@ -47,3 +47,7 @@ Al acceder a `http://localhost:8088` desde el navegador web, se visualizan las l
 ![Captura 4.5](../img/Pods/4.5.png)
 
 Se eliminan todos los recursos del namespace `default` con `kubectl delete all --all` (borrando `pod-multicontenedor`, `pod-tarea32` y `service/kubernetes`) y se detiene el nodo de Minikube mediante `minikube stop`.
+
+---
+
+[⬅️ Volver a PODS](../../README.md) · [🏠 Volver al índice](../../../README.md)

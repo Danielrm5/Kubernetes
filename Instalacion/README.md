@@ -137,3 +137,7 @@ Tras iniciar Minikube con el driver de Docker, `minikube profile list` muestra e
 ![Captura 17](./img/17.png)
 
 Finalmente, `kubectl get nodes -o wide` confirma que el nodo `minikube` está `Ready` como `control-plane` con IP `192.168.49.2`, sistema operativo `Debian GNU/Linux 12 (bookworm)` y runtime `containerd://2.3.4`.
+
+---
+
+[⬅️ Volver al índice](../README.md)

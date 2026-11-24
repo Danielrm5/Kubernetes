@@ -105,3 +105,7 @@ Se accede al interior del contenedor mediante `kubectl exec pod/pod-tarea32 -it 
 ![Captura 3.13](../img/Pods/3.13.png)
 
 Al recargar `http://localhost:8088` en el navegador web, se muestra el nuevo contenido del fichero `index.html` (*"Soy Daniel Romero"*).
+
+---
+
+[⬅️ Volver a PODS](../../README.md) · [🏠 Volver al índice](../../../README.md)

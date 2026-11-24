@@ -66,3 +66,7 @@ Existen otras herramientas de orquestación como **Docker Swarm** (integrado en 
 - **[3. PODS](../PODS/):** creación, inspección, acceso interactivo, logs, redirección de puertos (`port-forward`) y uso de Pods multicontenedor con volúmenes compartidos.
 - **[4. Replica sets](../replica%20sets/):** mantenimiento de un número estable de réplicas de un Pod.
 - **[5. Deployments](../deployments/):** gestión declarativa de despliegues y actualizaciones sin parada de servicio.
+
+---
+
+[⬅️ Volver al índice](../README.md)
