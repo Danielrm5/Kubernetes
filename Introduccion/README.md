@@ -1,72 +1,110 @@
-# 1. Introducción a Kubernetes
-
-Este apartado resume los conceptos fundamentales de **Kubernetes** (Módulo 1) y sirve como base para las prácticas del repositorio.
+[🏠 Volver al índice](../README.md) · [➡️ Siguiente: 2. Instalación](../Instalacion/)
 
 ---
 
-## 1. El problema real
+# 📘 1. Introducción a Kubernetes
 
-En entornos actuales las aplicaciones deben cumplir cuatro requisitos clave:
-
-- **Disponibilidad 24/7:** no pueden detenerse.
-- **Muchos usuarios simultáneos:** requieren capacidad de respuesta y reparto de carga.
-- **Cambios constantes:** actualizaciones frecuentes de código y configuración.
-- **Cero paradas:** actualizar o recuperarse de fallos sin interrumpir el servicio.
+Este apartado resume los conceptos fundamentales del **Módulo 1** y establece la base teórica para las prácticas del repositorio.
 
 ---
 
-## 2. Contenedores: primera solución
+## 🌍 1. El problema real en producción
 
-Un **contenedor** empaqueta una aplicación junto con todas sus dependencias para aislarla y garantizar que funcione igual en cualquier entorno.
+Hoy en día las aplicaciones modernas se enfrentan a cuatro exigencias críticas:
 
-Sin embargo, usar contenedores sueltos no es suficiente en producción porque:
-
-- No escalan automáticamente según la demanda.
-- No se recuperan por sí solos si un contenedor o servidor falla.
-- No balancean la carga entre réplicas de forma automática.
-
----
-
-## 3. ¿Qué es Kubernetes?
-
-**Kubernetes (K8s)** es un **orquestador de contenedores** pensado para producción que automatiza la gestión de aplicaciones en múltiples servidores:
-
-- Ejecuta contenedores automáticamente y decide en qué nodo colocarlos.
-- Mantiene el número deseado de copias (réplicas).
-- Escala según la carga.
-- Se recupera automáticamente ante fallos.
-- Permite actualizar aplicaciones sin detener el servicio.
+- 🕒 **Disponibilidad 24/7:** el servicio debe estar activo en todo momento.
+- 👥 **Alta concurrencia:** miles de usuarios accediendo de forma simultánea.
+- 🔄 **Cambios constantes:** despliegues frecuentes de nuevas versiones.
+- 🛡️ **Cero paradas (*Zero Downtime*):** actualizar o recuperarse de caídas sin interrumpir al usuario.
 
 ---
 
-## 4. Arquitectura de Kubernetes
+## 📦 2. Contenedores: la primera solución
 
-Un **clúster** de Kubernetes es un conjunto de máquinas (**nodos**) que trabajan juntas y se dividen en dos roles:
+Un **contenedor** empaqueta una aplicación junto con todas sus dependencias para aislarla y garantizar que funcione exactamente igual en cualquier máquina (*fin del clásico «en mi máquina funcionaba»*).
 
-- **Control Plane (Master):** es el cerebro del clúster; toma decisiones y mantiene el estado deseado (no ejecuta las aplicaciones de usuario). Sus componentes principales son:
-  - **API Server (`kube-apiserver`):** punto de entrada al clúster (por ejemplo, donde se conecta `kubectl`).
-  - **etcd:** base de datos que guarda el estado del clúster.
-  - **Scheduler (`kube-scheduler`):** decide en qué *Worker Node* se ejecuta cada Pod.
-  - **Controller Manager:** vigila que el estado actual coincida con el estado definido.
-- **Worker Nodes:** son los nodos donde se ejecutan realmente las aplicaciones dentro de **Pods** (unidades mínimas de uno o varios contenedores):
-  - **kubelet:** agente en cada nodo que recibe órdenes del *Control Plane* y verifica que los contenedores funcionen.
-  - **Container Runtime (`containerd`):** componente encargado de arrancar, ejecutar y detener los contenedores.
+> [!WARNING]
+> **¿Por qué los contenedores sueltos no bastan en producción?**
+> Por sí solos **no escalan automáticamente** ante picos de tráfico, **no se recuperan solos** si un proceso o servidor cae y **no reparten la carga** entre varias copias.
 
 ---
 
-## 5. Otros orquestadores
+## ☸️ 3. ¿Qué es Kubernetes?
 
-Existen otras herramientas de orquestación como **Docker Swarm** (integrado en Docker y más sencillo pero limitado), **Apache Mesos** o **HashiCorp Nomad**. Frente a ellas, **Kubernetes** se ha consolidado como el estándar de facto en producción por su escalado avanzado, alta disponibilidad y amplio ecosistema.
+**Kubernetes (K8s)** es un **orquestador de contenedores** de grado de producción que automatiza la operación de decenas o cientos de contenedores repartidos en varios servidores:
 
----
-
-## Relación con los módulos prácticos del repositorio
-
-- **[2. Instalación](../Instalacion/):** puesta en marcha de un clúster local con **Minikube** (usando VirtualBox y Docker) y el cliente **`kubectl`** para interactuar con la API del clúster.
-- **[3. PODS](../PODS/):** creación, inspección, acceso interactivo, logs, redirección de puertos (`port-forward`) y uso de Pods multicontenedor con volúmenes compartidos.
-- **[4. Replica sets](../replica%20sets/):** mantenimiento de un número estable de réplicas de un Pod.
-- **[5. Deployments](../deployments/):** gestión declarativa de despliegues y actualizaciones sin parada de servicio.
+| Capacidad | Qué hace Kubernetes automáticamente |
+| :--- | :--- |
+| **Planificación** | Decide en qué servidor (*nodo*) ejecutar cada contenedor según los recursos disponibles. |
+| **Auto-recuperación** | Detecta fallos y vuelve a levantar los contenedores caídos para mantener las copias deseadas. |
+| **Escalado** | Aumenta o reduce el número de réplicas según la carga. |
+| **Despliegue continuo** | Actualiza versiones progresivamente sin detener el servicio. |
 
 ---
 
-[⬅️ Volver al índice](../README.md)
+## 🏗️ 4. Arquitectura de un clúster de Kubernetes
+
+Un **clúster** es un conjunto de máquinas (**nodos**) que trabajan en equipo y se dividen en dos planos:
+
+```mermaid
+flowchart LR
+    U["👤 Usuario (kubectl)"] --> API["kube-apiserver"]
+
+    subgraph CP["🧠 Control Plane (Master)"]
+        API
+        ETCD[("etcd (Estado)")]
+        SCH["kube-scheduler"]
+        CM["controller-manager"]
+        API <--> ETCD
+        API <--> SCH
+        API <--> CM
+    end
+
+    subgraph WN["⚙️ Worker Nodes"]
+        KUB["kubelet"]
+        CR["containerd (Runtime)"]
+        POD["📦 Pods (Contenedores)"]
+        KUB --> CR --> POD
+    end
+
+    API <--> KUB
+```
+
+### 🧠 Control Plane (Master)
+Es la parte que **decide y controla** el clúster (no ejecuta las aplicaciones del usuario):
+- **API Server (`kube-apiserver`):** punto de entrada único al clúster; todas las órdenes pasan por aquí.
+- **etcd:** base de datos clave-valor donde se guarda todo el estado del clúster.
+- **Scheduler (`kube-scheduler`):** decide en qué *Worker Node* se ejecutará cada nuevo Pod.
+- **Controller Manager:** vigila continuamente que el estado real coincida con el estado declarado (por ejemplo, mantener siempre 3 réplicas).
+
+### ⚙️ Worker Nodes
+Son las máquinas donde **se ejecutan realmente las aplicaciones** dentro de **Pods** (grupos de uno o varios contenedores que comparten red y almacenamiento):
+- **kubelet:** agente instalado en cada nodo que recibe las órdenes del *Control Plane* y se asegura de que los contenedores estén funcionando.
+- **Runtime de contenedores (`containerd`):** motor encargado de arrancar y parar los contenedores.
+
+---
+
+## ⚖️ 5. Comparativa con otros orquestadores
+
+Además de alternativas como **Apache Mesos** o **HashiCorp Nomad**, la comparativa más habitual es frente a **Docker Swarm**:
+
+| Característica | 🐳 Docker Swarm | ☸️ Kubernetes |
+| :--- | :--- | :--- |
+| **Tipo** | Orquestador básico integrado en Docker | Orquestador completo independiente |
+| **Curva de aprendizaje** | Muy sencilla | Más compleja |
+| **Escalado y alta disponibilidad** | Básico / Limitada | Avanzado / Completa |
+| **Actualizaciones sin parada** | Básicas | Muy avanzadas |
+| **Adopción actual** | Pequeños entornos / en desuso | **Estándar de facto en producción** |
+
+---
+
+## 🧭 Recorrido práctico de este repositorio
+
+1. **[⚙️ 2. Instalación](../Instalacion/):** puesta en marcha del entorno local con **Minikube** y **kubectl** sobre VirtualBox y Docker.
+2. **[📦 3. PODS](../PODS/):** ciclo de vida de Pods individuales y comunicación mediante volúmenes en Pods multicontenedor.
+3. **[🔁 4. Replica sets](../replica%20sets/):** garantía de disponibilidad manteniendo múltiples réplicas activas.
+4. **[🚀 5. Deployments](../deployments/):** automatización de despliegues y actualizaciones continuas.
+
+---
+
+[🏠 Volver al índice](../README.md) · [➡️ Siguiente: 2. Instalación](../Instalacion/)
