@@ -1,0 +1,57 @@
+3.2. Tarea. Trabajando con Pods (OBLIGATORIA)
+En esta segunda tarea del curso vamos a crear nuestro primer Pod, y para ellos vamos
+a desplegar una imagen que nos ofrece un servidor web con una página estática.
+ En el siguiente apartado se detalla la hoja de ruta para resolver la
+actividad.
+ Al final de esta tarea se encuentran los recursos necesarios para su
+realización.
+Para superar esta tarea, realiza los siguientes pasos:
+1. Crea un fichero yaml con la descripción del recurso Pod, teniendo en cuenta los
+siguientes aspectos:
+o Indica nombres distintos para el Pod y para el contenedor.
+o La imagen que debes desplegar es iesgn/test_web:latest.
+o Indica una etiqueta en la descripción del Pod.
+2. Crea el Pod.
+3. Comprueba que el Pod se ha creado y está corriendo.
+4. Obtén información detallada del Pod creado.
+5. Accede de forma interactiva al Pod y comprueba los ficheros que están en el
+DocumentRoot (usr/local/apache2/htdocs/).
+6. Crea una redirección con kubectl port-forward utilizando el puerto de localhost
+8888 y sabiendo que el Pod ofrece el servicio en el puerto 80. Accede a la
+aplicación desde un navegador.
+7. Muestra los logs del Pod y comprueba que se visualizan los logs de los accesos que
+hemos realizado en el punto anterior.
+8. Elimina el Pod, y comprueba que ha sido eliminado.
+Para superar la actividad deberás entregar en un fichero comprimido los siguientes
+pantallazos:
+1. Pantallazo del fichero yaml que has creado con la definición del Pod
+(pantallazo1.jpg).
+2. Pantallazo donde se comprueba que el Pod ha sido creado (pantallazo2.jpg).
+3. Pantallazo donde se ve la información detallada del Pod (pantallazo3.jpg).
+4. Pantallazo donde se ve el fichero index.html del DocumentRoot (pantallazo4.jpg).
+2
+5. Pantallazo del navegador accediendo a la aplicación con el port-
+forward (pantallazo5.jpg).
+6. Pantallazo donde se ve los logs de acceso del Pod (pantallazo6.jpg).
+EVALUACIÓN DE LA ACTIVIDAD
+La evaluación se realizará en base a los siguientes criterios:
+ Se entregan los documentos, contienen lo solicitado y los
+contenidos son originales.
+ENTREGA DE LA TAREA
+Una vez hayas terminado los pasos que te indicamos, debes entregar un único archivo
+comprimido con todas las capturas de pantalla. El nombre del archivo será el siguiente:
+Tarea_2.2_Nombre_Y_PrimerApellido.zip
+Pasos de la entrega:
+1.
+1. Pulse en el botón "Agregar entrega" que encontrará al pie de esta misma
+página.
+2. Utilice el cuadro de texto "Texto en línea" si quiere indicar algún
+comentario sobre su entrega.
+3. Utilice el cuadro "Archivos enviados" para subir el archivo con la entrega de
+la tarea.
+4. Finalmente pulse en Guardar cambios.
+REQUISITOS DE FINALIZACIÓN
+La actividad se considerará finalizada cuando envíes tu entrada y el tutor/a la califique
+como Superada.
+RECURSOS
+ Conexión a Internet
